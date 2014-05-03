@@ -1,0 +1,26 @@
+{
+    "name": "gcphost/l4cp-support",
+    "description": "Support package for LaravelCP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "William Bowman",
+            "email": "gcphost@gmail.com",
+	    "homepage": "http://www.github.com/gcphost"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+         "classmap": [
+            "src/controllers",
+            "src/models"
+        ],
+	"psr-0": {
+            "Gcphost\\L4cpSupport": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
