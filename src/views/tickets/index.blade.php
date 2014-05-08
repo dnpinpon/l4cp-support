@@ -28,7 +28,7 @@
 					<th class="">{{{ Lang::get('l4cp-support::core.title') }}}</th>
 					<th class="">{{{ Lang::get('l4cp-support::core.department') }}}</th>
 					@if(empty($slug) || $department->default_flag == true)<th class="">{{{ Lang::get('l4cp-support::core.status') }}}</th>@endif
-					<th class="">{{{ Lang::get('core.created') }}}</th>
+					<th class="">{{{ Lang::get('admin/users/table.updated_at') }}}</th>
 					<th class="col-md-2" style="width: 180px">{{{ Lang::get('table.actions') }}}</th>
 				</tr>
 			</thead> 
@@ -41,6 +41,7 @@
 @include(Theme::path('admin/left-layout'))
 
 @section('scripts')
+
 <script type="text/javascript">
 @if(!empty($slug))
 	dtLoad('#tickets', "{{{ URL::to('admin/support/data/'.$slug) }}}", '', 'td:eq(2), th:eq(2)');

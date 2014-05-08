@@ -70,6 +70,9 @@ return array(
 	'create_a_new_reply' => 'Create a new reply',
 	'tickets_update' => 'Update a ticket',
 	'active' => 'Active',
+	'roles' => 'Roles',
+	'ticket_id' => 'Ticket ID',
+	'' => '',
 	'' => '',
 
 );

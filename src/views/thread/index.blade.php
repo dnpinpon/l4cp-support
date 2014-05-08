@@ -14,11 +14,11 @@
 	  position: relative;
 	  display: block;
 	  margin: 20px;
+	margin-right:50px;
 	  max-width: 800px;
 	}
 	.popover.right{
-	left: 50px;
-	margin-right:50px;
+		left: 50px;
 	}
 	.popover.left{
 		margin-left:0px;
@@ -38,7 +38,7 @@
 	</div>
 
 	<script type="text/javascript">
-		$.fn.poller('add',{'id':'#ticket-update', 'type':'plugin', 'ratio': '3', 'func': 'Support::getTicketThread', 'value': {{ json_encode($tickets->toArray()) }}});
+		$.fn.poller('add',{'id':'#ticket-update', 'type':'plugin', 'ratio': '1', 'func': 'Support::getTicketThread', 'value': {{ json_encode($tickets->toArray()) }}});
 	</script>
 
 

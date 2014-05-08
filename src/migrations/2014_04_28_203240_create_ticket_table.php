@@ -13,7 +13,7 @@ class CreateTicketTable extends Migration {
     {
         Schema::create('ticket', function($table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index()->nullable();
             $table->integer('admin_id')->unsigned()->index();
             $table->integer('department_id')->unsigned()->index();
   

@@ -30,6 +30,7 @@ class SupportThreadController extends AdminController {
      */
     public function getIndex($tickets)
     {
+
 		$thread=Support::getTicketThreadItems($tickets);
 		$user=$thread[0];
 		$replies=$thread[1];
@@ -77,13 +78,13 @@ class SupportThreadController extends AdminController {
 
 			$reply=new TicketReplies;
 			$reply->content=Input::get('content');
-			$reply->admin_id=Confide::user()->id;
+			$reply->user_id=Confide::user()->id;
 			
 
             if($tickets->replies()->save($reply))
             {			
 				
-				Support::Trigger('reply', array($tickets, $reply));
+				Support::Trigger('reply', $tickets, $reply);
 
                 return Api::to(array('success', Lang::get('l4cp-support::messages.create.success'))) ? : Redirect::to('admin/support/' . $tickets->id . '/thread/create')->with('success', Lang::get('l4cp-support::messages.create.success'));
             } else return Api::to(array('error', Lang::get('l4cp-support::messages.create.error'))) ? : Redirect::to('admin/support/' . $tickets->id . '/thread/create')->with('error', Lang::get('l4cp-support::messages.create.error'));

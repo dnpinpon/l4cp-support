@@ -27,10 +27,22 @@ class SupportController extends AdminController {
 		if(!Setting::has('support.from_email')) Setting::set('support.from_email', '');
 		if(!Setting::has('support.reply_to_name')) Setting::set('support.reply_to_name', '');
 		if(!Setting::has('support.reply_to_email')) Setting::set('support.reply_to_email', '');
+		if(!Setting::has('support.default_department')) Setting::set('support.default_department', '1');
+		if(!Setting::has('support.default_status')) Setting::set('support.default_status', '1');
 
 		Setting::save();
 
+		Cron::add('SupportCron', '*/5 * * * *', function() {
+			Support::ProcessImports();
+			Support::ProcessEscalations();
+			return null;
+		}, true);
+
 		echo "Support package installed.";
+	}
+
+	public function getCron(){	
+		return Cron::run();
 	}
 
 
@@ -62,6 +74,10 @@ class SupportController extends AdminController {
     public function getView($slug)
     {
 		/* hacks to ensure they get to the right place */
+		if($slug == "test") return Support::ProcessImports();
+		if($slug == "test2") return Support::ProcessEscalations();
+		if($slug == "cron") return $this->getCron();
+
 		if($slug == "data") return $this->getData();
 		if($slug == "create") return $this->getCreate();
 		if($slug == "install") return $this->getInstall();
@@ -89,18 +105,6 @@ class SupportController extends AdminController {
     public function getIndex()
     {
        
-	   		$autoreplies =TicketAutoreply::leftjoin('ticket_autoreply_actions', 'ticket_autoreply_actions.ticket_autoreply_id', '=', 'ticket_autoreply.id')
-                    ->leftjoin('ticket_autoreply_deps', 'ticket_autoreply_deps.ticket_autoreply_id', '=', 'ticket_autoreply.id')
-                    ->leftjoin('ticket_deps', 'ticket_deps.id', '=', 'ticket_autoreply_deps.ticket_deps_id')
-					->where('ticket_autoreply_actions.ticket_actions_id', '=', '2')
-					//->select(DB::raw('ticket_autoreply.id , ticket_autoreply.title , ticket_autoreply.content'))
-					->groupBy(DB::raw('ticket_autoreply.id , ticket_autoreply.title , ticket_autoreply.content '));
-
-
-
-echo "<pre>";
-print_r($autoreplies->get()->toArray());
-exit;
 		$title = Lang::get('l4cp-support::core.support');
 		return Theme::make('l4cp-support::tickets/index', compact('title'));
 
@@ -131,10 +135,10 @@ exit;
 		$validator = Validator::make(Input::all(), $rules);
 
         // Check if the form validates with success
-        if ($validator->passes())
+        if ($validator->passes() && (Input::get('user_id') || Input::get('email')))
         {
 
-			$this->tickets->user_id = Input::get('user_id');
+			if(Input::get('user_id')) $this->tickets->user_id = Input::get('user_id');
 			$this->tickets->admin_id = Confide::user()->id;
 			$this->tickets->department_id = Input::get('department_id');
 
@@ -155,7 +159,7 @@ exit;
 				$not = new TicketNotes(array('id'=>'0','content'=>Input::get('notes'), 'admin_id' =>Confide::user()->id));
 				$this->tickets->notes()->save($not);
 				
-				Support::Trigger('create', $this->tickets);
+				Support::Trigger('open', $this->tickets);
 
                 return Api::to(array('success', Lang::get('l4cp-support::messages.create.success'))) ? : Redirect::to('admin/support/' . $this->tickets->id . '/edit')->with('success', Lang::get('l4cp-support::messages.create.success'));
             } else return Api::to(array('error', Lang::get('l4cp-support::messages.create.error'))) ? : Redirect::to('admin/support/create')->with('error', Lang::get('l4cp-support::messages.create.error'));
@@ -305,12 +309,12 @@ exit;
 		if($slug){
 			$department=Support::getStatusByName($slug);
 			if($department->default_flag){
-				$list=Ticket::select(array('ticket.id','priority','users.displayname','ticket.title', 'ticket_deps.name', 'ticket_statuses.title as status', 'ticket.created_at', 'ticket_statuses.color as color'))
+				$list=Ticket::select(array('ticket.id','priority','users.displayname','ticket.title', 'ticket_deps.name', 'ticket_statuses.title as status', 'ticket.updated_at', 'ticket_statuses.color as color'))
 						->leftjoin('ticket_flags', 'ticket_flags.ticket_id', '=', 'ticket.id')->where('ticket_flags.user_id', '=', Confide::user()->id)
 						->leftjoin('ticket_statuses', 'ticket_statuses.id', '=', 'ticket.status');
 ;
-			} else $list=Ticket::select(array('ticket.id','priority','users.displayname','ticket.title', 'ticket_deps.name', 'ticket.created_at'))->where('status', '=', $department->id);
-		} else $list = Ticket::select(array('ticket.id','priority','users.displayname','ticket.title', 'ticket_deps.name', 'ticket_statuses.title as status', 'ticket.created_at', 'ticket_statuses.color as color'))
+			} else $list=Ticket::select(array('ticket.id','priority','users.displayname','ticket.title', 'ticket_deps.name', 'ticket.updated_at'))->where('status', '=', $department->id);
+		} else $list = Ticket::select(array('ticket.id','priority','users.displayname','ticket.title', 'ticket_deps.name', 'ticket_statuses.title as status', 'ticket.updated_at', 'ticket_statuses.color as color'))
 						->leftjoin('ticket_statuses', 'ticket_statuses.id', '=', 'ticket.status')->where('ticket_statuses.show_active','=','1');
 						//->leftjoin('ticket_flags', 'ticket_flags.ticket_id', '=', 'ticket.id')->where(DB::raw('ticket_flags.user_id = '. Confide::user()->id. ' OR ticket_flags.user_id = ""'));
 
@@ -324,12 +328,13 @@ exit;
 			return Api::make($u->toArray());
 		} else return Datatables::of($list)
 		->remove_column('color')
-		->edit_column('created_at', '{{{ Carbon::parse($created_at)->diffForHumans() }}}')
+		->edit_column('displayname', '<a href="{{{ URL::to(\'admin/support/\' . $id . \'/thread\' ) }}}">{{{ $displayname }}}')
+		->edit_column('updated_at', '{{{ Carbon::parse($updated_at)->diffForHumans() }}}')
 		->edit_column('priority', '{{ $priority > 0 ? "<span class=\"fa fa-flag". ($priority > 1 ? ($priority  == 3 ? "-checkered" : "-o") : null) ." \"></span>" : null}}')
-		->edit_column('title', '{{{ Filter::filter(Str::limit(strip_tags($title), 42, "..."), "*") }}} ')
+		->edit_column('title', '<a href="{{{ URL::to(\'admin/support/\' . $id . \'/thread\' ) }}}">{{{ Filter::filter(Str::limit(strip_tags($title), 42, "..."), "*") }}}</a>')
 		->edit_column('status', '@if(isset($status))@if(isset($color))<span style="color: {{{ $color }}}">{{{ $status }}}</span>@else{{{ $status }}}@endif@endif')
 
-        ->add_column('actions', '<div class="btn-group"><a href="{{{ URL::to(\'admin/support/\' . $id . \'/thread\' ) }}}" class="link-threw btn btn-info btn-sm" >{{{ Lang::get(\'button.view\') }}}</a><a href="{{{ URL::to(\'admin/support/\' . $id . \'/edit\' ) }}}" class="btn btn-primary btn-sm modalfy" >{{{ Lang::get(\'button.edit\') }}}</a>
+        ->add_column('actions', '<div class="btn-group"><a href="{{{ URL::to(\'admin/support/\' . $id . \'/thread\' ) }}}" class="link-through btn btn-info btn-sm" >{{{ Lang::get(\'button.view\') }}}</a><a href="{{{ URL::to(\'admin/support/\' . $id . \'/edit\' ) }}}" class="btn btn-primary btn-sm modalfy" >{{{ Lang::get(\'button.edit\') }}}</a>
                 <a data-method="delete" data-row="{{{  $id }}}" data-table="tickets"  href="{{{ URL::to(\'admin/support/\' . $id . \'\' ) }}}" class="ajax-alert-confirm btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
             ')
 

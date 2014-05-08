@@ -58,10 +58,19 @@
 
 			</div>
 			<div class="tab-pane" id="tab-settings">
+				<div class="form-group {{{ $errors->has('roles') ? 'has-error' : '' }}}">
+					<div class="col-md-12">
+						<label class="control-label" for="roles">{{{ Lang::get('l4cp-support::core.roles') }}}</label>
+						{{ Form::select('roles[]', $roles, isset($autoreply) ? $autoreply->currentRoles() : null,array('class' => 'form-control','multiple' => true, 'required'=>true)); }}
+						{{ $errors->first('roles', '<span class="help-block">:message</span>') }}
+					</div>
+				</div>
+				
+				
 				<div class="form-group {{{ $errors->has('actions') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
 						<label class="control-label" for="actions">{{{ Lang::get('l4cp-support::core.actions') }}}</label>
-						{{ Form::select('actions[]', $actions, isset($autoreply) ? $autoreply->currentActions() : null,array('class' => 'form-control','multiple' => true)); }}
+						{{ Form::select('actions[]', $actions, isset($autoreply) ? $autoreply->currentActions() : null,array('class' => 'form-control','multiple' => true, 'required'=>true)); }}
 						{{ $errors->first('actions', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
@@ -70,15 +79,15 @@
 				<div class="form-group {{{ $errors->has('departments') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
 						<label class="control-label" for="departments">{{{ Lang::get('l4cp-support::core.department') }}}</label>
-						{{ Form::select('departments[]', $deps, isset($autoreply) ? $autoreply->currentDepIds() : null,array('class' => 'form-control','multiple' => true)); }}
+						{{ Form::select('departments[]', $deps, isset($autoreply) ? $autoreply->currentDepIds() : null,array('class' => 'form-control','multiple' => true, 'required'=>true)); }}
 						{{ $errors->first('departments', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
-				{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-default')); }} 
-				{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-success')); }} 
+				{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-responsive btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
+				{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-responsive btn-default')); }} 
+				{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 			</div>
 		</div>
 	{{ Form::close(); }}

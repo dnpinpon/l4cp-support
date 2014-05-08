@@ -57,6 +57,7 @@ class SupportDepartmentController extends AdminController {
 	{
         $rules = array(
             'name'   => 'required|min:3',
+            'flags'   => 'required',
         );
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -112,7 +113,8 @@ class SupportDepartmentController extends AdminController {
 
         $rules = array(
             'name'   => 'required|min:3',
-        );
+             'flags'   => 'required',
+       );
 
         $validator = Validator::make(Input::all(), $rules);
 

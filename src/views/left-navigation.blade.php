@@ -1,26 +1,27 @@
-<ul class="nav nav-sidebar nav-pills nav-stacked">
-	<li {{ (Request::is('admin/support') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/support') }}}"><span class="fa fa-lg fa-question-circle fa-fw"></span>  {{{ Lang::get('l4cp-support::core.support') }}}</a>
-	
-		<ul class="nav nav-sidebar nav-pills nav-stacked" style="padding-left: 30px">
-			@foreach(Support::getStatusesCount() as $id => $status)
-				<li {{ !empty($tickets) ? ($status->id == $tickets->status ? "class=\"active\"" : null) : null  }} {{ (Request::is('admin/support/'.Str::slug(strtolower($status->title))) ? ' class="active"' : '') }}>
-					
-					<a href="{{{ URL::to('admin/support/'.Str::slug(strtolower($status->title))) }}}">
-						-   {{{ $status->title }}}
-						@if($status->total > 0)<span class="badge pull-right">{{ $status->total }}</span>@endif
-					</a>
-				</li>
-			@endforeach
-		</ul>
-	</li>
-</ul>
-<ul class="nav nav-sidebar nav-pills nav-stacked">
-	<li class="list-group-item list-group-item-info">Settings</li>
 
-	<li {{ (Request::is('admin/support/departments') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/support/departments') }}}"><span class="fa fa-lg fa-list-alt fa-fw"></span>  {{{ Lang::get('l4cp-support::core.departments') }}}</a></li>
-	<li {{ (Request::is('admin/support/spam') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/support/spam') }}}"><span class="fa fa-lg fa-shield fa-fw"></span>  {{{ Lang::get('l4cp-support::core.spam_filter') }}}</a></li>
-	<li {{ (Request::is('admin/support/autoreplies') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/support/autoreplies') }}}"><span class="fa fa-lg fa-mail-reply-all fa-fw"></span>  {{{ Lang::get('l4cp-support::core.auto_replies') }}}</a></li>
-	<li {{ (Request::is('admin/support/statuses') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/support/statuses') }}}"><span class="fa fa-lg fa-flag fa-fw"></span>  {{{ Lang::get('l4cp-support::core.statuses') }}}</a></li>
-	<li {{ (Request::is('admin/support/escalations') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/support/escalations') }}}"><span class="fa fa-lg fa-level-up fa-fw"></span>  {{{ Lang::get('l4cp-support::core.escalations') }}}</a></li>
 
-</ul>
+
+<div class="list-group" style="margin: 5px">
+	<a href="#" class="list-group-item list-group-item-info">{{{ Lang::get('l4cp-support::core.support') }}}</a>
+	<a href="{{{ URL::to('admin/support') }}}" class="list-group-item {{ (Request::is('admin/support') ? ' active' : '') }}">{{{ Lang::get('l4cp-support::core.active') }}}</a>
+	@foreach(Support::getStatusesCount() as $id => $status)
+		<a class="list-group-item {{ !empty($tickets) ? ($status->id == $tickets->status ? "active" : null) : null  }} {{ (Request::is('admin/support/'.Str::slug(strtolower($status->title))) ? ' active' : '') }}" href="{{{ URL::to('admin/support/'.Str::slug(strtolower($status->title))) }}}">
+			{{{ $status->title }}}
+			@if($status->total > 0)<span class="badge pull-right">{{ $status->total }}</span>@endif
+		</a>
+	@endforeach
+</div>
+
+<br/>
+
+
+<div class="list-group" style="margin: 5px">
+	<a href="#" class="list-group-item list-group-item-info">{{{ Lang::get('core.settings') }}}</a>
+
+	<a href="{{{ URL::to('admin/support/departments') }}}" class="list-group-item{{ Request::is('admin/support/departments') ? ' active' : ''}}"><span class="fa fa-lg fa-list-alt fa-fw"></span>  {{{ Lang::get('l4cp-support::core.departments') }}}</a></li>
+	<a href="{{{ URL::to('admin/support/spam') }}}" class="list-group-item{{ Request::is('admin/support/spam') ? ' active' : ''}}"><span class="fa fa-lg fa-shield fa-fw"></span>  {{{ Lang::get('l4cp-support::core.spam_filter') }}}</a></li>
+	<a href="{{{ URL::to('admin/support/autoreplies') }}}" class="list-group-item{{ Request::is('admin/support/autoreplies') ? ' active' : ''}}"><span class="fa fa-lg fa-mail-reply-all fa-fw"></span>  {{{ Lang::get('l4cp-support::core.auto_replies') }}}</a></li>
+	<a href="{{{ URL::to('admin/support/statuses') }}}" class="list-group-item{{ Request::is('admin/support/statuses') ? ' active' : ''}}"><span class="fa fa-lg fa-flag fa-fw"></span>  {{{ Lang::get('l4cp-support::core.statuses') }}}</a></li>
+	<a href="{{{ URL::to('admin/support/escalations') }}}" class="list-group-item{{ Request::is('admin/support/escalations') ? ' active' : ''}}"><span class="fa fa-lg fa-level-up fa-fw"></span>  {{{ Lang::get('l4cp-support::core.escalations') }}}</a></li>
+
+</div>

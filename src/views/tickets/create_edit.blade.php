@@ -49,7 +49,7 @@
 				<div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
 @section('wysiywg-content')
-{{ Input::old('content', isset($tickets) ? Filter::filter($tickets->message, '*') : null) }}
+{{ Input::old('content', isset($tickets) ? Filter::filter(nl2br(strip_tags($tickets->message, '*'))) : null) }}
 @stop
 						@include(Theme::path('wysiwyg'))
 						<textarea class="hide" name="content" id="content">{{{ Input::old('content', isset($tickets) ? Filter::filter($tickets->message, '*') : null) }}}</textarea>
@@ -64,20 +64,21 @@
 				<div class="modal-footer">
 					<div class="col-md-6">
 						<div class="pull-left">
-							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
-							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-default')); }} 
+							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-responsive btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
+							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-responsive btn-default')); }} 
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="pull-right">
-							{{ Form::button(Lang::get('button.previous'), array('class' => 'btn btn-default', 'onclick'=>"prevTab('.nav-tabs')")); }} 
-							{{ Form::button(Lang::get('button.next'), array('class' => 'btn btn-primary', 'onclick'=>"nextTab('.nav-tabs')")); }} 
+							{{ Form::button(Lang::get('button.previous'), array('class' => 'btn btn-responsive btn-default', 'onclick'=>"prevTab('.nav-tabs')")); }} 
+							{{ Form::button(Lang::get('button.next'), array('class' => 'btn btn-responsive btn-primary', 'onclick'=>"nextTab('.nav-tabs')")); }} 
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="tab-pane" id="tab-user">
+				<div style="height: 280px">
 				<div class="form-group {{{ $errors->has('user_id') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
 						{{ Form::select('user_id', array(''=>'Select a user') + Support::getClients(), isset($tickets) ? $tickets->user_id : null,array('class' => 'form-control')); }}
@@ -100,13 +101,13 @@
 						{{ $errors->first('email', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
-
+</div>
 
 				<div class="modal-footer">
 					<div class="col-md-4">
 						<div class="pull-left">
-							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
-							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-default')); }} 
+							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-responsive btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
+							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-responsive btn-default')); }} 
 						</div>
 					</div>
 					<div class="col-md-8">
@@ -122,8 +123,8 @@
 							 </div>
 
 
-							{{ Form::button(Lang::get('button.previous'), array('class' => 'btn btn-default', 'onclick'=>"prevTab('.nav-tabs')")); }} 
-							{{ Form::button(Lang::get('button.next'), array('class' => 'btn btn-primary', 'onclick'=>"nextTab('.nav-tabs')")); }} 
+							{{ Form::button(Lang::get('button.previous'), array('class' => 'btn btn-responsive btn-default', 'onclick'=>"prevTab('.nav-tabs')")); }} 
+							{{ Form::button(Lang::get('button.next'), array('class' => 'btn btn-responsive btn-primary', 'onclick'=>"nextTab('.nav-tabs')")); }} 
 						</div>
 					</div>
 				</div>
@@ -158,18 +159,18 @@
 						{{ $errors->first('flags', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
-
 				<div class="modal-footer">
 					<div class="col-md-6">
 						<div class="pull-left">
-							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
-							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-default')); }} 
+							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-responsive btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
+							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-responsive btn-default')); }} 
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="pull-right">
-							{{ Form::button(Lang::get('button.previous'), array('class' => 'btn btn-default', 'onclick'=>"prevTab('.nav-tabs')")); }} 
-							{{ Form::button(Lang::get('button.next'), array('class' => 'btn btn-primary', 'onclick'=>"nextTab('.nav-tabs')")); }} 
+							{{ Form::button(Lang::get('button.previous'), array('class' => 'btn btn-responsive btn-default', 'onclick'=>"prevTab('.nav-tabs')")); }} 
+							{{ Form::button(Lang::get('button.next'), array('class' => 'btn btn-responsive btn-primary', 'onclick'=>"nextTab('.nav-tabs')")); }} 
+							{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 						</div>
 					</div>
 				</div>
@@ -206,14 +207,14 @@
 				<div class="modal-footer">
 					<div class="col-md-6">
 						<div class="pull-left">
-							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
-							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-default')); }} 
+							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-responsive btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
+							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-responsive btn-default')); }} 
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="pull-right">
-							{{ Form::button(Lang::get('button.previous'), array('class' => 'btn btn-default', 'onclick'=>"prevTab('.nav-tabs')")); }} 
-							{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-success')); }} 
+							{{ Form::button(Lang::get('button.previous'), array('class' => 'btn btn-responsive btn-default', 'onclick'=>"prevTab('.nav-tabs')")); }} 
+							{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 						</div>
 					</div>
 				</div>
@@ -237,6 +238,7 @@
 					</table>
 				</div>
 			</div>
+			
 			<script type="text/javascript">
 				dtLoad('#activitylog', "{{URL::to('admin/support/' . $tickets->id . '/activity') }}", 'td:eq(2), th:eq(2)', 'td:eq(1), th:eq(1)', '', 'false');
 				dtLoad('#usernotes', "{{URL::to('admin/support/' . $tickets->id . '/notes') }}", 'td:eq(2), th:eq(2)', 'td:eq(1), th:eq(1)', '', 'false');

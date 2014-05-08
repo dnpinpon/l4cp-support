@@ -37,6 +37,7 @@
 @include(Theme::path('admin/left-layout'))
 
 @section('scripts')
+
 <script type="text/javascript">
 	dtLoad('#replies', 'autoreplies/data', 'td:eq(2), th:eq(2)', 'td:eq(3), th:eq(3)');
 </script>

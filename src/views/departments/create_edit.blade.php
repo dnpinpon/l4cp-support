@@ -57,7 +57,7 @@
 				<div class="form-group {{{ $errors->has('flags') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
 						<label class="control-label" for="flags">{{{ Lang::get('l4cp-support::core.flag') }}}</label>
-						{{ Form::select('flags[]', $admins, Input::old('flags[]', isset($department) ? $department->currentFlags() : null),array('class' => 'form-control','multiple' => true)); }}
+						{{ Form::select('flags[]', $admins, Input::old('flags[]', isset($department) ? $department->currentFlags() : null),array('class' => 'form-control','multiple' => true, 'required'=>true)); }}
 						{{ $errors->first('flags', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
@@ -152,9 +152,9 @@
 	
 	
 		<div class="modal-footer">
-			{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
-			{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-default')); }} 
-			{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-success')); }} 
+			{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-responsive btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
+			{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-responsive btn-default')); }} 
+			{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 		</div>
 	{{ Form::close(); }}
 @stop

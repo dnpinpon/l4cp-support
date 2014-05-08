@@ -47,10 +47,12 @@ class SupportAutoreplyController extends AdminController {
 	 */
 	public function getCreate()
 	{
+
+		$roles=Support::getRoles();;
 		$deps=Support::getDeps();;
 		$actions=Support::getActions();
 		$title = Lang::get('l4cp-support::core.create_a_new_autoreply');
-		return Theme::make('l4cp-support::autoreplys/create_edit', compact('title', 'deps', 'actions'));
+		return Theme::make('l4cp-support::autoreplys/create_edit', compact('title', 'deps', 'actions', 'roles'));
 	}
 
 	/**
@@ -63,6 +65,9 @@ class SupportAutoreplyController extends AdminController {
         $rules = array(
             'title'   => 'required',
             'content'   => 'required',
+            'roles'   => 'required',
+            'actions'   => 'required',
+            'departments'   => 'required',
         );
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -74,6 +79,7 @@ class SupportAutoreplyController extends AdminController {
             // Update the blog post data
             $this->autoreply->title = Input::get('title');
             $this->autoreply->content = Input::get('content');
+			$this->autoreply->saveRoles(Input::get( 'roles' ));
 			$this->autoreply->saveDeps(Input::get( 'departments' ));
 			$this->autoreply->saveActions(Input::get( 'actions' ));
 
@@ -94,10 +100,11 @@ class SupportAutoreplyController extends AdminController {
 	public function getEdit($autoreply)
 	{
 
+		$roles=Support::getRoles();;
 		$deps=Support::getDeps();;
 		$actions=Support::getActions();
         $title = Lang::get('l4cp-support::core.autoreply_update');
-        return Theme::make('l4cp-support::autoreplys/create_edit', compact('autoreply', 'title', 'deps', 'actions'));
+        return Theme::make('l4cp-support::autoreplys/create_edit', compact('autoreply', 'title', 'deps', 'actions', 'roles'));
 	}
 
     /**
@@ -112,6 +119,9 @@ class SupportAutoreplyController extends AdminController {
         $rules = array(
             'title'   => 'required',
             'content'   => 'required',
+            'roles'   => 'required',
+            'actions'   => 'required',
+            'departments'   => 'required',
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -122,6 +132,7 @@ class SupportAutoreplyController extends AdminController {
             $autoreply->title = Input::get('title');
             $autoreply->content = Input::get('content');
 			$autoreply->saveDeps(Input::get( 'departments' ));
+			$autoreply->saveRoles(Input::get( 'roles' ));
 			$autoreply->saveActions(Input::get( 'actions' ));
 
             return $autoreply->save() ? Api::to(array('success', Lang::get('l4cp-support::messages.update.success'))) ? : Redirect::to('admin/support/autoreplies/' . $autoreply->id . '/edit')->with('success', Lang::get('l4cp-support::messages.update.success')) : Api::to(array('error', Lang::get('l4cp-support::messages.update.error'))) ? : Redirect::to('admin/support/autoreplies/' . $autoreply->id . '/edit')->with('error', Lang::get('l4cp-support::messages.update.error'));
@@ -150,9 +161,9 @@ class SupportAutoreplyController extends AdminController {
      */
     public function getData()
     {
-        $list = TicketAutoreply::select(array('id','title', 'content', 'department_id'));
-		$list = TicketAutoreply::leftjoin('ticket_deps', 'department_id', '=', 'ticket_deps.id')
-                    ->select(DB::raw('ticket_autoreply.id, title, content, group_concat(ticket_deps.name SEPARATOR \', \') as depname'))->groupBy(DB::raw('ticket_autoreply.id, title, content'))->orderBy('ticket_autoreply.id');
+		$list = TicketAutoreply::join('ticket_autoreply_deps', 'ticket_autoreply_deps.ticket_autoreply_id', '=', 'ticket_autoreply.id')
+					->join('ticket_deps', 'ticket_autoreply_deps.ticket_deps_id', '=', 'ticket_deps.id')
+                    ->select(DB::raw('ticket_autoreply.id, ticket_autoreply.title, ticket_autoreply.content, group_concat(ticket_deps.name SEPARATOR \', \') as depname'))->groupBy(DB::raw('ticket_autoreply.id, ticket_autoreply.title, ticket_autoreply.content'));
 
         if(Api::Enabled()){
 			$u=$list->get();

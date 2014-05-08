@@ -1,9 +1,9 @@
 @section('main-nav-post')
-	<li class="dropdown{{ (Request::is('admin/support*') ? ' active' : '') }}"">
-		<a id="nav_users" class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/support') }}}">
+	<li class="dropdown{{ (Request::is('admin/support*') ? ' active' : '') }}">
+		<a id="nav_support" class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/support') }}}">
 			<span class="fa fa-fw fa-question-circle"></span> {{{ Lang::get('l4cp-support::core.support') }}} <span class="caret"></span>
 		</a>
-		<ul aria-labelledby="nav_users" class="dropdown-menu">
+		<ul aria-labelledby="nav_support" class="dropdown-menu">
 			<li {{ (Request::is('admin/support/') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/support') }}}">{{{ Lang::get('l4cp-support::core.active') }}}</a></li>
 			@foreach(Support::getStatuses() as $id => $status)
 				<li {{ !empty($tickets) ? ($id == $tickets->status ? "class=\"active\"" : null) : null  }} {{ (Request::is('admin/support/'.Str::slug(strtolower($status))) ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/support/'.Str::slug(strtolower($status))) }}}">{{{ $status }}}</a></li>

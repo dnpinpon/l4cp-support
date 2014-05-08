@@ -15,6 +15,11 @@ class TicketAutoreply  extends Eloquent {
         return $this->belongsToMany('TicketActions', 'ticket_autoreply_actions');
     }
 
+	public function roles()
+    {
+        return $this->belongsToMany('Role', 'ticket_autoreply_roles');
+    }
+
     /**
      * Save deps inputted from multiselect
      * @param $inputRoles
@@ -23,6 +28,16 @@ class TicketAutoreply  extends Eloquent {
     {
 		empty($input) ? $this->deps()->detach() :  $this->deps()->sync($input);
     }
+
+    /**
+     * Save deps inputted from multiselect
+     * @param $inputRoles
+     */
+    public function saveRoles($input)
+    {
+		empty($input) ? $this->roles()->detach() :  $this->roles()->sync($input);
+    }
+
     /**
      * Save deps inputted from multiselect
      * @param $inputRoles
@@ -57,6 +72,23 @@ class TicketAutoreply  extends Eloquent {
     public function currentActions()
     {
         $roles = $this->actions;
+        $roleIds = false;
+        if( !empty( $roles ) ) {
+            $roleIds = array();
+            foreach( $roles as &$role )
+            {
+                $roleIds[] = $role->id;
+            }
+        }
+        return $roleIds;
+    }
+	/**
+     * Returns escalations's current deparment ids only.
+     * @return array|bool
+     */
+    public function currentRoles()
+    {
+        $roles = $this->roles;
         $roleIds = false;
         if( !empty( $roles ) ) {
             $roleIds = array();

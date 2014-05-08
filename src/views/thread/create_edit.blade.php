@@ -55,12 +55,12 @@
 					</div>
 					<div class="col-md-6">
 						<div class="pull-right">
-							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
-							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-default')); }} 
+							{{ Form::reset(Lang::get('button.cancel'), array('class' => 'btn btn-responsive btn-danger', 'onclick'=>"$('#site-modal').modal('hide')")); }} 
+							{{ Form::reset(Lang::get('button.reset'), array('class' => 'btn btn-responsive btn-default')); }} 
 
-							{{ Form::submit(Lang::get('l4cp-support::core.mark').' '.$button->title. ' &amp; ' . Lang::get('button.save'), array('class' => 'btn btn-primary', 'id'=>'default_button')); }} 
+							{{ Form::submit(Lang::get('l4cp-support::core.mark').' '.$button->title. ' &amp; ' . Lang::get('button.save'), array('class' => 'btn btn-responsive btn-primary', 'id'=>'default_button')); }} 
 
-							{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-success')); }} 
+							{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 						</div>
 					</div>
 				</div>
