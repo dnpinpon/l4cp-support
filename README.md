@@ -1,9 +1,12 @@
+![screenshot](http://i.imgur.com/EkP4YaG.png)
+
+
 provider:
-'Gcphost\L4cpSupport\L4cpSupportServiceProvider',
+   'Gcphost\L4cpSupport\L4cpSupportServiceProvider',
 
 alias:
-'Support'	=>	'Gcphost\L4cpSupport\Helpers\Support',
-
+   'Support'	=>	'Gcphost\L4cpSupport\Helpers\Support',
+ 
 
 psr-0, if in a workbench:
-		    "Gcphost\\L4cpSupport": "workbench/gcphost/l4cp-support/src/"
+   "Gcphost\\\\L4cpSupport": "workbench/gcphost/l4cp-support/src/"
