@@ -12,7 +12,7 @@
 	<div class="page-header clearfix">
 		<div class="pull-left"><h3>{{{ $title }}}</h3></div>
 		<div class="pull-right">
-			<a href="{{{ URL::to('admin/support/create') }}}" class="btn btn-small btn-info modalfy"><span class="fa fa-lg fa-plus-square"></span> {{{ Lang::get('button.create') }}}</a>
+			<a href="{{{ URL::to('admin/support/create') }}}" class="btn  btn-info modalfy"><span class="fa fa-plus"></span> {{{ Lang::get('button.create') }}}</a>
 		</div>
 	</div>
 
@@ -22,13 +22,13 @@
 		<table id="tickets" class="table table-responsive table-striped table-hover table-bordered">
 			<thead>
 				<tr>
-					<th></th>
-					<th class="" style="width: 15px"></th>
-					<th class="">{{{ Lang::get('l4cp-support::core.name') }}}</th>
-					<th class="">{{{ Lang::get('l4cp-support::core.title') }}}</th>
-					<th class="">{{{ Lang::get('l4cp-support::core.department') }}}</th>
-					@if(empty($slug) || $department->default_flag == true)<th class="">{{{ Lang::get('l4cp-support::core.status') }}}</th>@endif
-					<th class="">{{{ Lang::get('admin/users/table.updated_at') }}}</th>
+					<th>{{{ Lang::get('core.id') }}}</th>
+					<th style="width: 15px"><span class="fa fa-flag"></span></th>
+					<th>{{{ Lang::get('l4cp-support::core.name') }}}</th>
+					<th>{{{ Lang::get('l4cp-support::core.title') }}}</th>
+					<th>{{{ Lang::get('l4cp-support::core.department') }}}</th>
+					@if(empty($slug) || $department->default_flag == true)<th>{{{ Lang::get('l4cp-support::core.status') }}}</th>@endif
+					<th>{{{ Lang::get('admin/users/table.updated_at') }}}</th>
 					<th class="col-md-2" style="width: 180px">{{{ Lang::get('table.actions') }}}</th>
 				</tr>
 			</thead> 
@@ -44,9 +44,9 @@
 
 <script type="text/javascript">
 @if(!empty($slug))
-	dtLoad('#tickets', "{{{ URL::to('admin/support/data/'.$slug) }}}", '', 'td:eq(2), th:eq(2)');
+	dtLoad('#tickets', "{{{ URL::to('admin/support/data/'.$slug) }}}", '', 'td:eq(2), th:eq(2)', '', 'false');
 @else
-	dtLoad('#tickets', "{{{ URL::to('admin/support/data') }}}", '', 'td:eq(2), th:eq(2)');
+	dtLoad('#tickets', "{{{ URL::to('admin/support/data') }}}", '', 'td:eq(2), th:eq(2)', '', 'false');
 @endif
 </script>
 @stop

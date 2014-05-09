@@ -6,9 +6,9 @@
 
 
 	<div class="pull-right">
-		@if($tickets->status != $button->id)<a data-method="get" href="{{{ URL::to('admin/support/'.$tickets->id.'/status/'.$button->id) }}}" class="btn btn-small btn-success basic-confirm">{{{Lang::get('l4cp-support::core.mark')}}} {{{ $button->title }}}</a>@endif
-		<a href="{{{ URL::to('admin/support/'.$tickets->id.'/edit') }}}" class="btn btn-small btn-primary modalfy">{{{ Lang::get('button.edit') }}}</a>
-		<a href="{{{ URL::to('admin/support/'.$tickets->id.'/thread/create') }}}" class="btn btn-small btn-info modalfy"><span class="fa fa-lg fa-plus-square"></span> {{{ Lang::get('button.reply') }}}</a>
+		<a href="{{{ URL::to('admin/support/'.$tickets->id.'/thread/create') }}}" class="btn  btn-info modalfy"><span class="fa fa-plus"></span> {{{ Lang::get('button.reply') }}}</a>
+		<a href="{{{ URL::to('admin/support/'.$tickets->id.'/edit') }}}" class="btn  btn-primary modalfy">{{{ Lang::get('button.edit') }}}</a>
+		@if(isset($button) && $tickets->status != $button->id)<a data-method="get" href="{{{ URL::to('admin/support/'.$tickets->id.'/status/'.$button->id) }}}" class="btn  btn-success confirm-ajax-noupdate">{{{Lang::get('l4cp-support::core.mark')}}} {{{ $button->title }}}</a>@endif
 	</div>
 </div>
 

@@ -170,7 +170,7 @@ class SupportDepartmentController extends AdminController {
         ->edit_column('description', '{{{ Filter::filter(Str::limit(strip_tags($description), 100, "..."), "*") }}} ')
 
         ->add_column('actions', '<div class="btn-group"><a href="{{{ URL::to(\'admin/support/departments/\' . $id . \'/edit\' ) }}}" class="btn btn-primary btn-sm modalfy" >{{{ Lang::get(\'button.edit\') }}}</a>
-                <a data-method="delete" data-row="{{{  $id }}}" data-table="departments"  href="{{{ URL::to(\'admin/support/departments/\' . $id . \'\' ) }}}" class="ajax-alert-confirm btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
+                <a data-method="delete" data-row="{{{  $id }}}" data-table="departments"  href="{{{ URL::to(\'admin/support/departments/\' . $id . \'\' ) }}}" class="confirm-ajax-update btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
             ')
 
         ->make();

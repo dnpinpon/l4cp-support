@@ -147,7 +147,7 @@ class SupportSpamfilterController extends AdminController {
 
         ->edit_column('content', '{{{ Str::limit($content, 100, "...") }}} ')
         ->add_column('actions', '<div class="btn-group"><a href="{{{ URL::to(\'admin/support/spam/\' . $id . \'/edit\' ) }}}" class="btn btn-primary btn-sm modalfy" >{{{ Lang::get(\'button.edit\') }}}</a>
-                <a data-method="delete" data-row="{{{  $id }}}" data-table="spam"  href="{{{ URL::to(\'admin/support/spam/\' . $id . \'\' ) }}}" class="ajax-alert-confirm btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
+                <a data-method="delete" data-row="{{{  $id }}}" data-table="spam"  href="{{{ URL::to(\'admin/support/spam/\' . $id . \'\' ) }}}" class="confirm-ajax-update btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
             ')
 
         ->make();

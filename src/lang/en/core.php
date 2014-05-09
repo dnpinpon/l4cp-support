@@ -72,6 +72,8 @@ return array(
 	'active' => 'Active',
 	'roles' => 'Roles',
 	'ticket_id' => 'Ticket ID',
+	'close_status' => 'Status for "Closed" tickets',
+	'' => '',
 	'' => '',
 	'' => '',
 

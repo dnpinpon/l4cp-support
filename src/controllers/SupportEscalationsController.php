@@ -76,7 +76,7 @@ class SupportEscalationsController extends AdminController {
             $this->escalations->new_department = (int)Input::get('new_department');
 			$this->escalations->saveDeps(Input::get( 'departments' ));
 			$this->escalations->saveStatuses(Input::get( 'statuses' ));
-			$this->escalations->saveFlags(Input::get( 'flags' ));
+			$this->escalations->saveFlags(explode(',',Input::get('flags' )));
 
             if($this->escalations->save())
             {
@@ -128,7 +128,7 @@ class SupportEscalationsController extends AdminController {
             $escalations->new_department = (int)Input::get('new_department');
 			$escalations->saveDeps(Input::get( 'departments' ));
 			$escalations->saveStatuses(Input::get( 'statuses' ));
-			$escalations->saveFlags(Input::get( 'flags' ));
+			$escalations->saveFlags(explode(',',Input::get( 'flags' )));
 
             return $escalations->save() ? Api::to(array('success', Lang::get('l4cp-support::messages.update.success'))) ? : Redirect::to('admin/support/escalations/' . $escalations->id . '/edit')->with('success', Lang::get('l4cp-support::messages.update.success')) : Api::to(array('error', Lang::get('l4cp-support::messages.update.error'))) ? : Redirect::to('admin/support/escalations/' . $escalations->id . '/edit')->with('error', Lang::get('l4cp-support::messages.update.error'));
         } else return Api::to(array('error', Lang::get('l4cp-support::messages.update.error'))) ? : Redirect::to('admin/support/escalations/' . $escalations->id . '/edit')->withInput()->withErrors($validator);
@@ -165,7 +165,7 @@ class SupportEscalationsController extends AdminController {
 
 		->edit_column('delay', '{{{ $delay ? : "None" }}}')
         ->add_column('actions', '<div class="btn-group"><a href="{{{ URL::to(\'admin/support/escalations/\' . $id . \'/edit\' ) }}}" class="btn btn-primary btn-sm modalfy" >{{{ Lang::get(\'button.edit\') }}}</a>
-                <a data-method="delete" data-row="{{{  $id }}}" data-table="escalations"  href="{{{ URL::to(\'admin/support/escalations/\' . $id . \'\' ) }}}" class="ajax-alert-confirm btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
+                <a data-method="delete" data-row="{{{  $id }}}" data-table="escalations"  href="{{{ URL::to(\'admin/support/escalations/\' . $id . \'\' ) }}}" class="confirm-ajax-update btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
             ')
 
         ->make();

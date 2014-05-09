@@ -12,7 +12,7 @@
 	<div class="page-header clearfix">
 		<div class="pull-left"><h3>{{{ $title }}}</h3></div>
 		<div class="pull-right">
-			<a href="{{{ URL::to('admin/support/statuses/create') }}}" class="btn btn-small btn-info modalfy"><span class="fa fa-lg fa-plus-square"></span> {{{ Lang::get('button.create') }}}</a>
+			<a href="{{{ URL::to('admin/support/statuses/create') }}}" class="btn  btn-info modalfy"><span class="fa fa-plus"></span> {{{ Lang::get('button.create') }}}</a>
 		</div>
 	</div>
 
@@ -38,6 +38,6 @@
 @section('scripts')
 
 <script type="text/javascript">
-	dtLoad('#statuses', 'statuses/data', '', 'td:eq(2), th:eq(2)');
+	dtLoad('#statuses', 'statuses/data', '', 'td:eq(1), th:eq(1)', '', 'false', 'true');
 </script>
 @stop

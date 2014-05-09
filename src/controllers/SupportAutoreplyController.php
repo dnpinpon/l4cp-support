@@ -174,7 +174,7 @@ class SupportAutoreplyController extends AdminController {
         ->edit_column('content', '{{{ Filter::filter(Str::limit(strip_tags($content), 100, "..."), "***") }}} ')
 
         ->add_column('actions', '<div class="btn-group"><a href="{{{ URL::to(\'admin/support/autoreplies/\' . $id . \'/edit\' ) }}}" class="btn btn-primary btn-sm modalfy" >{{{ Lang::get(\'button.edit\') }}}</a>
-                <a data-method="delete" data-row="{{{  $id }}}" data-table="replies"  href="{{{ URL::to(\'admin/support/autoreplies/\' . $id . \'\' ) }}}" class="ajax-alert-confirm btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
+                <a data-method="delete" data-row="{{{  $id }}}" data-table="replies"  href="{{{ URL::to(\'admin/support/autoreplies/\' . $id . \'\' ) }}}" class="confirm-ajax-update btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
             ')
 
         ->make();

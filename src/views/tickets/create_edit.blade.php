@@ -81,10 +81,13 @@
 				<div style="height: 280px">
 				<div class="form-group {{{ $errors->has('user_id') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
-						{{ Form::select('user_id', array(''=>'Select a user') + Support::getClients(), isset($tickets) ? $tickets->user_id : null,array('class' => 'form-control')); }}
+					<input data-url="{{{URL::to('admin/users/list')}}}" id="user-select" class="form-control" name="user_id" type="hidden" value="{{{ isset($tickets) ? $tickets->user_id : null }}}" tabindex="-1">
 						{{ $errors->first('user_id', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
+				<script type="text/javascript">
+					loadUserSelect('#user-select', 'Select a user');
+				</script>
 
 				<hr/>
 					<strong>Or send to e-mail</strong>
@@ -152,13 +155,20 @@
 						{{ $errors->first('priority', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
+
+
 				<div class="form-group {{{ $errors->has('flags') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
 						<label class="control-label" for="flags">{{{ Lang::get('l4cp-support::core.flag') }}}</label>
-						{{ Form::select('flags[]', Support::getAdmins(), Input::old('flags[]', isset($tickets) ? $tickets->currentFlags() : null),array('class' => 'form-control','multiple' => true)); }}
+						<input data-multi="true" data-url="{{{URL::to('admin/users/listadmin')}}}" id="user-flags" class="form-control" name="flags" type="hidden" value="{{{Input::old('flags', isset($tickets) ? implode(',',$tickets->currentFlags()) : null) }}}" tabindex="-1">
 						{{ $errors->first('flags', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
+				<script type="text/javascript">
+					loadUserSelect('#user-flags', 'Select users');
+				</script>
+
+
 				<div class="modal-footer">
 					<div class="col-md-6">
 						<div class="pull-left">
@@ -240,8 +250,8 @@
 			</div>
 			
 			<script type="text/javascript">
-				dtLoad('#activitylog', "{{URL::to('admin/support/' . $tickets->id . '/activity') }}", 'td:eq(2), th:eq(2)', 'td:eq(1), th:eq(1)', '', 'false');
-				dtLoad('#usernotes', "{{URL::to('admin/support/' . $tickets->id . '/notes') }}", 'td:eq(2), th:eq(2)', 'td:eq(1), th:eq(1)', '', 'false');
+				dtLoad('#activitylog', "{{URL::to('admin/support/' . $tickets->id . '/activity') }}", 'td:eq(2), th:eq(2)', 'td:eq(1), th:eq(1)', '', 'false', 'true');
+				dtLoad('#usernotes', "{{URL::to('admin/support/' . $tickets->id . '/notes') }}", 'td:eq(2), th:eq(2)', 'td:eq(1), th:eq(1)', '', 'false', 'true');
 			</script>
 		@endif
 

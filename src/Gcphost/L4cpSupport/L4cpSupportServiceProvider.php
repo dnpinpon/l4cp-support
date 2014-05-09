@@ -1,9 +1,7 @@
 <?php namespace Gcphost\L4cpSupport;
 
 use Illuminate\Support\ServiceProvider;
-use View;
-use Search;
-use Setting;
+use View, Search, CronWrapper, Setting;
 
 class L4cpSupportServiceProvider extends ServiceProvider {
 
@@ -36,6 +34,8 @@ class L4cpSupportServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	private function extend(){
+		CronWrapper::Add('Support::Cron');
+
 		Search::AddTable('ticket', array('title','message'), array('id' => array('method'=>'link', 'action'=>'admin/support/?/thread')));
 		Search::AddTable('ticket_replies', array('ticket_id','content'), array('ticket_id' => array('method'=>'link', 'action'=>'admin/support/?/thread')));
 

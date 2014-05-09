@@ -29,24 +29,14 @@ class SupportController extends AdminController {
 		if(!Setting::has('support.reply_to_email')) Setting::set('support.reply_to_email', '');
 		if(!Setting::has('support.default_department')) Setting::set('support.default_department', '1');
 		if(!Setting::has('support.default_status')) Setting::set('support.default_status', '1');
+		if(!Setting::has('support.auto_close_delay')) Setting::set('support.auto_close_delay', '1');
 
 		Setting::save();
-
-		Cron::add('SupportCron', '*/5 * * * *', function() {
-			Support::ProcessImports();
-			Support::ProcessEscalations();
-			return null;
-		}, true);
 
 		echo "Support package installed.";
 	}
 
-	public function getCron(){	
-		return Cron::run();
-	}
-
-
- 		/**
+ 	/**
      * Show a list of all the blog posts.
      *
      * @return View
@@ -73,11 +63,12 @@ class SupportController extends AdminController {
      */
     public function getView($slug)
     {
+
 		/* hacks to ensure they get to the right place */
-		if($slug == "test") return Support::ProcessImports();
+		if($slug == "test") return Support::ProcessAutoClose();
 		if($slug == "test2") return Support::ProcessEscalations();
 		if($slug == "cron") return $this->getCron();
-
+		
 		if($slug == "data") return $this->getData();
 		if($slug == "create") return $this->getCreate();
 		if($slug == "install") return $this->getInstall();
@@ -151,7 +142,7 @@ class SupportController extends AdminController {
 			$this->tickets->priority = Input::get('priority');
 			$this->tickets->status = Input::get('status');
 
-			$this->tickets->saveFlags(Input::get('flags'));
+			$this->tickets->saveFlags(explode(',',Input::get('flags')));
 
 
             if($this->tickets->save())
@@ -211,7 +202,7 @@ class SupportController extends AdminController {
 			$tickets->priority = Input::get('priority');
 			$tickets->status = Input::get('status');
 
-			$tickets->saveFlags(Input::get('flags'));
+			$tickets->saveFlags(explode(',',Input::get('flags')));
 
 			foreach(Input::get('notes') as $id=>$note){
 				$not = TicketNotes::find($id);
@@ -335,7 +326,7 @@ class SupportController extends AdminController {
 		->edit_column('status', '@if(isset($status))@if(isset($color))<span style="color: {{{ $color }}}">{{{ $status }}}</span>@else{{{ $status }}}@endif@endif')
 
         ->add_column('actions', '<div class="btn-group"><a href="{{{ URL::to(\'admin/support/\' . $id . \'/thread\' ) }}}" class="link-through btn btn-info btn-sm" >{{{ Lang::get(\'button.view\') }}}</a><a href="{{{ URL::to(\'admin/support/\' . $id . \'/edit\' ) }}}" class="btn btn-primary btn-sm modalfy" >{{{ Lang::get(\'button.edit\') }}}</a>
-                <a data-method="delete" data-row="{{{  $id }}}" data-table="tickets"  href="{{{ URL::to(\'admin/support/\' . $id . \'\' ) }}}" class="ajax-alert-confirm btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
+                <a data-method="delete" data-row="{{{  $id }}}" data-table="tickets"  href="{{{ URL::to(\'admin/support/\' . $id . \'\' ) }}}" class="confirm-ajax-update btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
             ')
 
         ->make();

@@ -108,11 +108,13 @@
 				<div class="form-group {{{ $errors->has('flags') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
 						<label class="control-label" for="flags">{{{ Lang::get('l4cp-support::core.flag') }}}</label>
-						{{ Form::select('flags[]', Support::getAdmins(), Input::old('flags[]', isset($escalations) ? $escalations->currentFlags() : null),array('class' => 'form-control','multiple' => true)); }}
+						<input data-multi="true" data-url="{{{URL::to('admin/users/listadmin')}}}" id="user-flags" class="form-control" name="flags" type="hidden" value="{{{Input::old('flags', isset($escalations) ? implode(',',$escalations->currentFlags()) : null) }}}" tabindex="-1">
 						{{ $errors->first('flags', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
-
+				<script type="text/javascript">
+					loadUserSelect('#user-flags', 'Select users');
+				</script>
 
 				<div class="form-group {{{ $errors->has('notify_admins') ? 'has-error' : '' }}}">
 					<div class="col-md-12">

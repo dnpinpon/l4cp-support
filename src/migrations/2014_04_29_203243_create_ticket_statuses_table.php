@@ -22,9 +22,7 @@ class CreateTicketStatusesTable extends Migration {
 			$table->integer('default_category')->unsigned()->nullable();
 			$table->integer('default_flag')->unsigned()->nullable();
 			$table->integer('auto_close')->unsigned()->nullable();
-
-			$table->timestamp('created_at')->default("0000-00-00 00:00:00");
-            $table->timestamp('updated_at')->default("0000-00-00 00:00:00");
+			$table->integer('close_status')->unsigned()->nullable();
         });
     }
 

@@ -1,23 +1,6 @@
 <?php namespace Gcphost\L4cpSupport\Helpers;
 
-use Route;
-use View;
-use User;
-use DB;
-use Theme;
-use TicketReplies;
-use Ticket;
-use TicketLog;
-use TicketAutoreply;
-use Setting;
-use Mail;
-use Role;
-use TicketDeps;
-use TicketSpam;
-use TicketBreaklines;
-use Lang;
-use TicketEscalations;
-use DateTime;
+use TicketStatuses, Route,View,User,DB,Theme,TicketReplies,Ticket,TicketLog,TicketAutoreply,Setting,Mail,Role,TicketDeps,TicketSpam,TicketBreaklines,Lang,TicketEscalations,DateTime,Cron,CronWrapper;
 
 class Support {
 
@@ -39,6 +22,15 @@ class Support {
 			'3' => 'High',	
 	);
 	
+	static public function Cron(){	
+		echo "Yes";
+		Cron::add('SupportCron', '*/5 * * * *', function() {
+			Support::ProcessImports();
+			Support::ProcessEscalations();
+			Support::ProcessAutoClose();
+			return true;
+		}, true);
+	}
 
 	static public function Log($action, $tickets, $email=false){
 		$log =  !$email ? new TicketLog() : new TicketLogEmail();
@@ -204,11 +196,6 @@ class Support {
                     ->select(DB::raw('users.displayname,users.id'))->where('roles.name', '=', 'admin')->groupBy(DB::raw('users.displayname,users.id'))->lists('displayname','id');
 	}
 
-	static public function getClients(){
-		return User::leftjoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
-                    ->leftjoin('roles', 'roles.id', '=', 'assigned_roles.role_id')
-                    ->select(DB::raw('users.displayname,users.id'))->where('roles.name', '!=', 'admin')->groupBy(DB::raw('users.displayname,users.id'))->lists('displayname','id');
-	}
 
 	static public function ProcessImport($department, $import){
 		foreach($import as $data){
@@ -259,7 +246,7 @@ class Support {
 	static public function ProcessImportReply($ticket_id, $data){
 		$tickets=Ticket::find($ticket_id);
 		if($tickets && self::ProcessImportReplySave($tickets, $data)){
-			Support::Trigger('reply', $tickets, $data[4]);
+			Support::Trigger('reply', $tickets, $data[4], true);
 			return true;
 		} else return false;
 	}
@@ -267,7 +254,7 @@ class Support {
 	static public function ProcessImportSave($data){
 		$tickets=new Ticket;
 		if(self::ProcessSave($tickets, $data)){
-			Support::Trigger('open', $tickets);
+			Support::Trigger('open', $tickets, false, true);
 			return true;
 		} else return false;           		
 	}
@@ -398,6 +385,15 @@ class Support {
 	}
 
 
+	static public function ProcessAutoClose(){
+		$close=TicketStatuses::where('close_status', '=', '1')->first();
+		if($close->id) $tickets=Ticket::where('ticket.updated_at','<',DB::raw('NOW() - INTERVAL '.Setting::get('support.auto_close_delay').' DAY'))
+			->leftjoin('ticket_statuses', 'ticket_statuses.id', '=', 'ticket.status')
+			->where('ticket_statuses.auto_close', '=','1')
+			->groupBy('ticket.id')->update(array('ticket.status' => $close->id));
+
+	}
+
 
 	static public function ProcessEscalations(){
 		$escalations= TicketEscalations::leftjoin('ticket_escalations_deps', 'ticket_escalations_deps.ticket_escalations_id', '=', 'ticket_escalations.id')
@@ -408,13 +404,12 @@ class Support {
 	}
 
 	static public function ProcessEscalationTickets($escalation){
-		$results=Ticket::select('ticket.id')->where(DB::raw('UNIX_TIMESTAMP(`ticket`.`updated_at`)'),'<',DB::raw('NOW() - INTERVAL '.$escalation->delay.' MINUTE'));
+		$results=Ticket::select('ticket.id')->where('ticket.updated_at','<',DB::raw('NOW() - INTERVAL '.$escalation->delay.' MINUTE'));
 		if($escalation->departments) $results->whereIn('ticket.department_id',explode(',',$escalation->departments));
 		if($escalation->status) $results->whereIn('ticket.status',explode(',',$escalation->status));
 		if($escalation->priority) $results->whereIn('ticket.priority',json_decode($escalation->priority));
 		
 		foreach($results->get() as $ticket){
-			echo "did ".$ticket->id."<br>";
 			$tickets=Ticket::find($ticket->id);
 		
 			if($escalation->new_priority) $tickets->priority = $escalation->new_priority;
@@ -427,13 +422,6 @@ class Support {
 			Support::Trigger('edit', $tickets);
 		}
 	}
-
-	static public function Cron(){
-
-		Queue::later(Carbon::now()->addMinutes(5), 'Support::ProcessEscalations');
-	}
-
-
 
 	static public function AdminGroup(){
 

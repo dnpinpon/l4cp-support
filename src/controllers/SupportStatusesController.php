@@ -65,6 +65,7 @@ class SupportStatusesController extends AdminController {
 			if((int)Input::get('default_flag') == 1) TicketStatuses::where('default_flag', '=', '1')->update(array('default_flag' => '0'));
 			if((int)Input::get('default_button') == 1) TicketStatuses::where('default_button', '=', '1')->update(array('default_button' => '0'));
 			if((int)Input::get('default_category') == 1) TicketStatuses::where('default_category', '=', '1')->update(array('default_category' => '0'));
+			if((int)Input::get('close_status') == 1) TicketStatuses::where('close_status', '=', '1')->update(array('close_status' => '0'));
 
             $this->statuses->title = Input::get('title');
             $this->statuses->color = Input::get('color');
@@ -74,6 +75,7 @@ class SupportStatusesController extends AdminController {
             $this->statuses->default_category = (int)Input::get('default_category');
             $this->statuses->default_button = (int)Input::get('default_button');
             $this->statuses->auto_close = (int)Input::get('auto_close');
+            $this->statuses->close_status = (int)Input::get('close_status');
 
 
             if($this->statuses->save())
@@ -115,6 +117,7 @@ class SupportStatusesController extends AdminController {
         // Check if the form validates with success
         if ($validator->passes())
         {
+			if((int)Input::get('close_status') == 1) TicketStatuses::where('close_status', '=', '1')->update(array('close_status' => '0'));
    			if((int)Input::get('default_flag') == 1) TicketStatuses::where('default_flag', '=', '1')->update(array('default_flag' => '0'));
    			if((int)Input::get('default_button') == 1) TicketStatuses::where('default_button', '=', '1')->update(array('default_button' => '0'));
    			if((int)Input::get('default_category') == 1) TicketStatuses::where('default_category', '=', '1')->update(array('default_category' => '0'));
@@ -127,6 +130,7 @@ class SupportStatusesController extends AdminController {
             $statuses->default_button = (int)Input::get('default_button');
             $statuses->default_category = (int)Input::get('default_category');
             $statuses->auto_close = (int)Input::get('auto_close');
+            $statuses->close_status = (int)Input::get('close_status');
 
             return $statuses->save() ? Api::to(array('success', Lang::get('l4cp-support::messages.update.success'))) ? : Redirect::to('admin/support/statuses/' . $statuses->id . '/edit')->with('success', Lang::get('l4cp-support::messages.update.success')) : Api::to(array('error', Lang::get('l4cp-support::messages.update.error'))) ? : Redirect::to('admin/support/statuses/' . $statuses->id . '/edit')->with('error', Lang::get('l4cp-support::messages.update.error'));
         } else return Api::to(array('error', Lang::get('l4cp-support::messages.update.error'))) ? : Redirect::to('admin/support/statuses/' . $statuses->id . '/edit')->withInput()->withErrors($validator);
@@ -164,7 +168,7 @@ class SupportStatusesController extends AdminController {
 		->edit_column('auto_close', '{{{ $auto_close ? "Yes" : "No" }}} ')
 		->edit_column('title', '@if($color)<span style="color: {{{ $color }}}">{{{ $title }}}</span>@else{{{ $title }}}@endif')
         ->add_column('actions', '<div class="btn-group"><a href="{{{ URL::to(\'admin/support/statuses/\' . $id . \'/edit\' ) }}}" class="btn btn-primary btn-sm modalfy" >{{{ Lang::get(\'button.edit\') }}}</a>
-                <a data-method="delete" data-row="{{{  $id }}}" data-table="statuses"  href="{{{ URL::to(\'admin/support/statuses/\' . $id . \'\' ) }}}" class="ajax-alert-confirm btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
+                <a data-method="delete" data-row="{{{  $id }}}" data-table="statuses"  href="{{{ URL::to(\'admin/support/statuses/\' . $id . \'\' ) }}}" class="confirm-ajax-update btn btn-sm btn-danger">{{{ Lang::get(\'button.delete\') }}}</a></div>
             ')
 		->remove_column('color')
         ->make();

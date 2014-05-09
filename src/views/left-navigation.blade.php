@@ -1,17 +1,8 @@
 
 
-
-<div class="list-group" style="margin: 5px">
-	<a href="#" class="list-group-item list-group-item-info">{{{ Lang::get('l4cp-support::core.support') }}}</a>
-	<a href="{{{ URL::to('admin/support') }}}" class="list-group-item {{ (Request::is('admin/support') ? ' active' : '') }}">{{{ Lang::get('l4cp-support::core.active') }}}</a>
-	@foreach(Support::getStatusesCount() as $id => $status)
-		<a class="list-group-item {{ !empty($tickets) ? ($status->id == $tickets->status ? "active" : null) : null  }} {{ (Request::is('admin/support/'.Str::slug(strtolower($status->title))) ? ' active' : '') }}" href="{{{ URL::to('admin/support/'.Str::slug(strtolower($status->title))) }}}">
-			{{{ $status->title }}}
-			@if($status->total > 0)<span class="badge pull-right">{{ $status->total }}</span>@endif
-		</a>
-	@endforeach
+<div id="support-left-nav">
+	@include(Theme::path('l4cp-support::helpers/leftnav'))
 </div>
-
 <br/>
 
 
@@ -25,3 +16,7 @@
 	<a href="{{{ URL::to('admin/support/escalations') }}}" class="list-group-item{{ Request::is('admin/support/escalations') ? ' active' : ''}}"><span class="fa fa-lg fa-level-up fa-fw"></span>  {{{ Lang::get('l4cp-support::core.escalations') }}}</a></li>
 
 </div>
+
+<script type="text/javascript">
+		$.fn.poller('add',{'id':'#support-left-nav', 'type':'template', 'func':'l4cp-support::helpers/leftnav', 'value':'{{{ Request::path() }}}',  'ratio': '1'});
+</script>

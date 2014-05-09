@@ -136,6 +136,20 @@
 						{{ $errors->first('default_category', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
+				<div class="form-group {{{ $errors->has('close_status') ? 'has-error' : '' }}}">
+					<div class="col-md-12">
+						<label class="col-md-4 control-label" for="close_status">{{{ Lang::get('l4cp-support::core.close_status') }}}</label>
+						<div class="btn-group btn-toggle" data-toggle="buttons">
+							<label class="btn btn-default {{(Input::old('close_status', isset($statuses) ? $statuses->close_status : null) ? 'active btn-primary' : null)}}">
+								{{ Form::radio('close_status', '1', (Input::old('close_status', isset($statuses) ? $statuses->close_status : null) ? true : null)) }} Yes
+							</label>
+							<label class="btn btn-default {{(Input::old('close_status', isset($statuses) ? $statuses->close_status : null) ? null : 'active btn-primary')}}">
+								{{ Form::radio('close_status', '0', (Input::old('close_status', isset($statuses) ? $statuses->close_status : null) ? null : true)) }} No
+							</label>
+						 </div>
+						{{ $errors->first('close_status', '<span class="help-block">:message</span>') }}
+					</div>
+				</div>
 
 				<div class="form-group {{{ $errors->has('auto_close') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
