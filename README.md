@@ -1,15 +1,20 @@
 ![screenshot](http://i.imgur.com/EkP4YaG.png)
 
+# Download to workbench/gcphost/l4cp-support OR vendor/gcphost/l4cp-support
 
-provider:
+# Edit your app/config/app.php
 
-   'Gcphost\L4cpSupport\L4cpSupportServiceProvider',
+## Add the the provider:
 
-alias:
+      'Gcphost\L4cpSupport\L4cpSupportServiceProvider',
 
-   'Support'	=>	'Gcphost\L4cpSupport\Helpers\Support',
+## Add to the alias:
+
+      'Support'	=>	'Gcphost\L4cpSupport\Helpers\Support',
  
 
-psr-0, if in a workbench:
+#Edit your composer.json
 
-   "Gcphost\\\\L4cpSupport": "workbench/gcphost/l4cp-support/src/"
+## Add to psr-0
+
+     "Gcphost\\L4cpSupport": "workbench/gcphost/l4cp-support/src/"
