@@ -14,7 +14,7 @@ class CreateTicketSpamfilterTable extends Migration {
         Schema::create('ticket_spamfilter', function($table) {
             $table->increments('id');
 			$table->enum('type', array('subject', 'sender', 'body'));
-            $table->longText('content');
+            $table->longText('content')->nullable();
             $table->timestamp('created_at')->default("0000-00-00 00:00:00");
             $table->timestamp('updated_at')->default("0000-00-00 00:00:00");
         });

@@ -13,8 +13,8 @@ class CreateTicketAutoreplyTable extends Migration {
     {
         Schema::create('ticket_autoreply', function($table) {
             $table->increments('id');
-            $table->text('title');
-            $table->longText('content');
+            $table->text('title')->nullable();
+            $table->longText('content')->nullable();
             $table->timestamp('created_at')->default("0000-00-00 00:00:00");
             $table->timestamp('updated_at')->default("0000-00-00 00:00:00");
         });

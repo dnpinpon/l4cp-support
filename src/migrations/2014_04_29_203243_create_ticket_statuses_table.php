@@ -13,7 +13,7 @@ class CreateTicketStatusesTable extends Migration {
     {
         Schema::create('ticket_statuses', function($table) {
             $table->increments('id');
-            $table->text('title');
+            $table->text('title')->nullable();
             $table->text('color')->nullable();
   
 			$table->integer('sort')->unsigned()->nullable();

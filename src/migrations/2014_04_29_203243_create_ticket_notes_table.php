@@ -15,7 +15,7 @@ class CreateTicketNotesTable extends Migration {
             $table->increments('id');
             $table->integer('ticket_id')->unsigned()->index();
             $table->integer('admin_id')->unsigned()->index();
-            $table->longText('content');
+            $table->longText('content')->nullable();
  			$table->foreign('ticket_id')->references('id')->on('ticket')->onDelete('cascade');
             $table->timestamp('created_at')->default("0000-00-00 00:00:00");
             $table->timestamp('updated_at')->default("0000-00-00 00:00:00");

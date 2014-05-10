@@ -14,8 +14,8 @@ class CreateTicketTable extends Migration {
         Schema::create('ticket', function($table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index()->nullable();
-            $table->integer('admin_id')->unsigned()->index();
-            $table->integer('department_id')->unsigned()->index();
+            $table->integer('admin_id')->unsigned()->index()->nullable();
+            $table->integer('department_id')->unsigned()->index()->nullable();
   
 	        $table->text('name')->nullable();
             $table->text('email')->nullable();
@@ -23,7 +23,7 @@ class CreateTicketTable extends Migration {
 		    $table->text('c')->nullable();
 		    $table->text('title')->nullable();
 		    $table->text('attachment')->nullable();
-		    $table->longText('message');
+		    $table->longText('message')->nullable();
 
 	        $table->integer('priority')->unsigned()->nullable();
 	        $table->integer('status')->unsigned()->nullable();
