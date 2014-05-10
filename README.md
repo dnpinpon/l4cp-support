@@ -23,6 +23,10 @@
 
      cd workbench/gcphost/l4cp-support
      composer dump-autoload
+     
+### Migrate the database:
+
+     php artisan migrate --bench=gcphost\l4cp-support
 
 ### Run the installer
 Once installed run the install page from your browser, its admin/support/install - this will install/update the configuration settings.
