@@ -19,8 +19,9 @@
 
      "Gcphost\\L4cpSupport": "workbench/gcphost/l4cp-support/src/"
     
-### Dump auto load
+### Dump auto load in the workbench/gcphost/l4cp-support folder
 
+     cd workbench/gcphost/l4cp-support
      composer dump-autoload
 
 ### Run the installer
