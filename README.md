@@ -18,3 +18,6 @@
 ### Add to psr-0
 
      "Gcphost\\L4cpSupport": "workbench/gcphost/l4cp-support/src/"
+
+# Run the installer
+Once installed run the install page from your browser, its admin/support/install - this will install/update the configuration settings.
