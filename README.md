@@ -1,6 +1,22 @@
 ![screenshot](http://i.imgur.com/EkP4YaG.png)
 
-### Download to workbench/gcphost/l4cp-support 
+# Example Package for LaravelCP
+This is an basic ticket system example for LaravelCP. It is intended to shocase how you can extend LaravelCP.
+
+# Features
+- E-mail import per department (with spam filter)
+- Auto escalations
+- Control over departments and notifications
+
+Please note there is no client interface at this time. Clients can e-mail your support department email (if configured) to create tickets.
+
+### Add to your composer.json
+
+      "gcphost/l4cp-support": "dev-master",
+
+### Update
+
+      composer update
 
 ### Edit your app/config/app.php
 
@@ -13,20 +29,17 @@
       'Support'	=>	'Gcphost\L4cpSupport\Helpers\Support',
  
 
-###Edit your composer.json
 
-#### Add to psr-0
+### Dump auto load 
 
-     "Gcphost\\L4cpSupport": "workbench/gcphost/l4cp-support/src/"
-    
-### Dump auto load in the workbench/gcphost/l4cp-support folder
-
-     cd workbench/gcphost/l4cp-support
      composer dump-autoload
      
 ### Migrate the database:
 
-     php artisan migrate --bench=gcphost\l4cp-support
+     php artisan migrate
 
 ### Run the installer
-Once installed run the install page from your browser, its admin/support/install - this will install/update the configuration settings.
+- Once installed run the install page from your browser
+- admin/support/install
+- this will install/update the configuration settings.
+- define your email settings in Settings > Support
