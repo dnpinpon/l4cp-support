@@ -23,7 +23,6 @@ class Support {
 	);
 	
 	static public function Cron(){	
-		echo "Yes";
 		Cron::add('SupportCron', '*/5 * * * *', function() {
 			Support::ProcessImports();
 			Support::ProcessEscalations();
