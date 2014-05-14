@@ -1,7 +1,7 @@
 ![screenshot](http://i.imgur.com/EkP4YaG.png)
 
 # Example Package for LaravelCP
-This is an basic ticket system example for LaravelCP. It is intended to shocase how you can extend LaravelCP.
+This is an basic ticket system example for LaravelCP. It is intended to showcase how you can extend LaravelCP.
 
 # Features
 - E-mail import per department (with spam filter)
@@ -36,8 +36,9 @@ Please note there is no client interface at this time. Clients can e-mail your s
      
 ### Migrate the database:
 
-     php artisan migrate
-
+     php artisan migrate --path="vendor/gcphost/l4cp-support/src/migrations"
+     
+     
 ### Run the installer
 - Once installed run the install page from your browser
 - admin/support/install
