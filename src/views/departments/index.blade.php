@@ -36,8 +36,9 @@
 @include(Theme::path('admin/layouts/sidebar-left'))
 
 @section('scripts')
-
-<script type="text/javascript">
-	dtLoad('#departments', 'departments/data', '', 'td:eq(1), th:eq(1)');
-</script>
+	<script src="{{{ asset('assets/js/jquery.dataTables.min.js') }}}"></script>
+	<script src="{{{ asset('assets/js/datatables.js') }}}"></script>
+	<script type="text/javascript">
+		dtLoad('#departments', 'departments/data', '', 'td:eq(1), th:eq(1)');
+	</script>
 @stop

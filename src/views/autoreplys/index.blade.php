@@ -37,8 +37,13 @@
 @include(Theme::path('admin/layouts/sidebar-left'))
 
 @section('scripts')
+	<script src="{{{ asset('assets/js/jquery.dataTables.min.js') }}}"></script>
+	<script src="{{{ asset('assets/js/datatables.js') }}}"></script>
+	<script type="text/javascript">
+		dtLoad('#replies', 'autoreplies/data', 'td:eq(1), th:eq(1)', 'td:eq(2), th:eq(2)', '', 'false', 'true');
+	</script>
+@stop
 
-<script type="text/javascript">
-	dtLoad('#replies', 'autoreplies/data', 'td:eq(1), th:eq(1)', 'td:eq(2), th:eq(2)', '', 'false', 'true');
-</script>
+@section('head-scripts')
+	<script src="{{{ asset('assets/js/bootstrap-wysiwyg.js') }}}"></script>
 @stop

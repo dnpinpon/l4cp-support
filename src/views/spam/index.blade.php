@@ -36,8 +36,9 @@
 @include(Theme::path('admin/layouts/sidebar-left'))
 
 @section('scripts')
-
-<script type="text/javascript">
-	dtLoad('#spam', 'spam/data', '', 'td:eq(1), th:eq(1)', '', '', 'true');
-</script>
+	<script src="{{{ asset('assets/js/jquery.dataTables.min.js') }}}"></script>
+	<script src="{{{ asset('assets/js/datatables.js') }}}"></script>
+	<script type="text/javascript">
+		dtLoad('#spam', 'spam/data', '', 'td:eq(1), th:eq(1)', '', '', 'true');
+	</script>
 @stop

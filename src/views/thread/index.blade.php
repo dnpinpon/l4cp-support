@@ -50,6 +50,6 @@
 	</script>
 @stop
 
-@section('styles')
-
+@section('head-scripts')
+	<script src="{{{ asset('assets/js/bootstrap-wysiwyg.js') }}}"></script>
 @stop

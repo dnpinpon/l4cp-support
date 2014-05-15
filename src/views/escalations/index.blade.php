@@ -35,9 +35,22 @@
 @stop
 @include(Theme::path('admin/layouts/sidebar-left'))
 
-@section('scripts')
+@section('head-scripts-pre')
+	<script src="{{{ asset('assets/js/select2.min.js') }}}"></script>
+@stop
 
-<script type="text/javascript">
-	dtLoad('#escalations', 'escalations/data', '','td:eq(1), th:eq(1)', '', 'false', 'true');
-</script>
+@section('head-scripts')
+	<script src="{{{ asset('assets/js/bootstrap-wysiwyg.js') }}}"></script>
+@stop
+
+@section('styles')
+	<link rel="stylesheet" href="{{{ asset('assets/css/select2.css') }}}">
+@stop
+
+@section('scripts')
+	<script src="{{{ asset('assets/js/jquery.dataTables.min.js') }}}"></script>
+	<script src="{{{ asset('assets/js/datatables.js') }}}"></script>
+	<script type="text/javascript">
+		dtLoad('#escalations', 'escalations/data', '','td:eq(1), th:eq(1)', '', 'false', 'true');
+	</script>
 @stop
