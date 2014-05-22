@@ -40,7 +40,7 @@
 	<script src="{{{ asset('assets/js/jquery.dataTables.min.js') }}}"></script>
 	<script src="{{{ asset('assets/js/datatables.js') }}}"></script>
 	<script type="text/javascript">
-		dtLoad('#replies', 'autoreplies/data', 'td:eq(1), th:eq(1)', 'td:eq(2), th:eq(2)', '', 'false', 'true');
+		dtLoad('#replies', 'autoreplies/data', 'td:eq(1), th:eq(1)', 'td:eq(2), th:eq(2)', '', 'false', 'true', [null, null, null, null, null]);
 	</script>
 @stop
 
