@@ -35,11 +35,8 @@
 @stop
 @include(Theme::path('admin/layouts/sidebar-left'))
 
-@section('head-scripts-pre')
-	<script src="{{{ asset('assets/js/select2.min.js') }}}"></script>
-@stop
-
 @section('head-scripts')
+	<script src="{{{ asset('assets/js/select2.min.js') }}}"></script>
 	<script src="{{{ asset('assets/js/bootstrap-wysiwyg.js') }}}"></script>
 @stop
 
