@@ -3,7 +3,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\View;
 
 
-class SupportDepartmentController extends AdminController {
+class SupportDepartmentController extends BaseController {
 
 
     /**

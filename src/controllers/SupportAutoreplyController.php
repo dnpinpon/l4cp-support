@@ -3,7 +3,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\View;
 
 
-class SupportAutoreplyController extends AdminController {
+class SupportAutoreplyController extends BaseController {
 
 
     /**
