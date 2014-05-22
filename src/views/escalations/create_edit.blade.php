@@ -46,7 +46,7 @@
 
 				<div class="form-group {{{ $errors->has('delay') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
-						<label class="control-label" for="delay">{{{ Lang::get('l4cp-support::core.delay') }}}</label>
+						<label class="control-label" for="delay">{{{ Lang::get('l4cp-support::core.delay') }}}<small>{{{ Lang::get('l4cp-support::core.delay_hint') }}}</small></label>
 						<input class="form-control" type="text" name="delay" id="delay" value="{{{ Input::old('delay', isset($escalations) ? $escalations->delay : null) }}}" />
 						{{ $errors->first('delay', '<span class="help-block">:message</span>') }}
 					</div>
@@ -107,7 +107,7 @@
 
 				<div class="form-group {{{ $errors->has('flags') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
-						<label class="control-label" for="flags">{{{ Lang::get('l4cp-support::core.flag') }}}</label>
+						<label class="control-label" for="flags">{{{ Lang::get('l4cp-support::core.flag') }}}<small> {{{ Lang::get('l4cp-support::core.flag_hint') }}} </small></label>
 						<input data-multi="true" data-url="{{{URL::to('admin/users/listadmin')}}}" id="user-flags" class="form-control" name="flags" type="hidden" value="{{{Input::old('flags', isset($escalations) ? implode(',',$escalations->currentFlags()) : null) }}}" tabindex="-1">
 						{{ $errors->first('flags', '<span class="help-block">:message</span>') }}
 					</div>
