@@ -39,6 +39,6 @@
 	<script src="{{{ asset('assets/js/jquery.dataTables.min.js') }}}"></script>
 	<script src="{{{ asset('assets/js/datatables.js') }}}"></script>
 	<script type="text/javascript">
-		dtLoad('#spam', 'spam/data', '', 'td:eq(1), th:eq(1)', '', '', 'true');
+		dtLoad('#spam', 'spam/data', '', 'td:eq(1), th:eq(1)', '', '', 'true', [null, null, null, null]);
 	</script>
 @stop

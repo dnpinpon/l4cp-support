@@ -57,9 +57,9 @@
 	<script src="{{{ asset('assets/js/datatables.js') }}}"></script>
 	<script type="text/javascript">
 		@if(!empty($slug))
-			dtLoad('#tickets', "{{{ URL::to('admin/support/data/'.$slug) }}}", '', 'td:eq(2), th:eq(2)', '', 'false');
+			dtLoad('#tickets', "{{{ URL::to('admin/support/data/'.$slug) }}}", '', 'td:eq(2), th:eq(2)', '', 'false', null, [null, null, null, null, null, null, null]);
 		@else
-			dtLoad('#tickets', "{{{ URL::to('admin/support/data') }}}", '', 'td:eq(2), th:eq(2)', '', 'false');
+			dtLoad('#tickets', "{{{ URL::to('admin/support/data') }}}", '', 'td:eq(2), th:eq(2)', '', 'false', null, [null, null, null, null, null, null, null, null]);
 		@endif
 	</script>
 @stop

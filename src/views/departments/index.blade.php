@@ -39,6 +39,6 @@
 	<script src="{{{ asset('assets/js/jquery.dataTables.min.js') }}}"></script>
 	<script src="{{{ asset('assets/js/datatables.js') }}}"></script>
 	<script type="text/javascript">
-		dtLoad('#departments', 'departments/data', '', 'td:eq(1), th:eq(1)');
+		dtLoad('#departments', 'departments/data', '', 'td:eq(1), th:eq(1)', null, null, null, [null, null, null, null]);
 	</script>
 @stop
