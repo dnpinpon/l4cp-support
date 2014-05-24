@@ -1,13 +1,11 @@
 <?php
 
-class DatabaseSeeder extends Seeder {
+class SupportSeeder extends Seeder {
 
     public function run()
     {
         Eloquent::unguard();
 
-        // Add calls to Seeders here
         $this->call('ActionsTableSeeder');
     }
-
 }
