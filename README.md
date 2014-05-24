@@ -34,9 +34,10 @@ Please note there is no client interface at this time. Clients can e-mail your s
 
      composer dump-autoload
      
-### Migrate the database:
+### Migrate & seed the database:
 
      php artisan migrate --path="vendor/gcphost/l4cp-support/src/database/migrations"
+     php artisan db:seed --class=ActionsTableSeeder
      
      
 ### Run the installer
