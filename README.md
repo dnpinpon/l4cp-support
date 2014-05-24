@@ -36,7 +36,7 @@ Please note there is no client interface at this time. Clients can e-mail your s
      
 ### Migrate the database:
 
-     php artisan migrate --path="vendor/gcphost/l4cp-support/src/migrations"
+     php artisan migrate --path="vendor/gcphost/l4cp-support/src/database/migrations"
      
      
 ### Run the installer
