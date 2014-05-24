@@ -4,7 +4,7 @@ class ActionsTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('posts')->delete();
+        DB::table('ticket_actions')->delete();
 
         $user_id = User::first()->id;
 
