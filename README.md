@@ -37,7 +37,7 @@ Please note there is no client interface at this time. Clients can e-mail your s
 ### Migrate & seed the database:
 
      php artisan migrate --path="vendor/gcphost/l4cp-support/src/database/migrations"
-     php artisan db:seed --class=ActionsTableSeeder
+     php artisan db:seed --class=SupportSeeder
      
      
 ### Run the installer
