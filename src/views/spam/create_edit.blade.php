@@ -1,5 +1,9 @@
 @extends(Theme::path('admin/layouts/modal'))
 
+@section('title')
+	{{{ $title }}}
+@stop
+
 @section('content')
 	@if ($message = Session::get('success'))
 	<script type="text/javascript">
@@ -7,8 +11,9 @@
 			var oTable = parent.$('#spam').dataTable();
 			oTable.fnReloadAjax();
 		}
+		closeModel();
 	</script>
-	@endif
+	@else
 
 	@if (isset($spam))
 		{{ Form::open(array('method' => 'put','url' => URL::to('admin/support/spam/' . $spam->id . '/edit'), 'class' => 'form-horizontal form-ajax')) }}
@@ -45,4 +50,5 @@
 			{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 		</div>
 	{{ Form::close(); }}
+	@endif
 @stop

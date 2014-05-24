@@ -1,5 +1,9 @@
 @extends(Theme::path('admin/layouts/modal'))
 
+@section('title')
+	{{{ $title }}}
+@stop
+
 @section('styles')
 	<style type="text/css"> 
 		#editor {
@@ -16,8 +20,9 @@
 			var oTable = parent.$('#tickets').dataTable();
 			oTable.fnReloadAjax();
 		}
+		closeModel();
 	</script>
-	@endif
+	@else
 
 
 	<ul class="nav nav-tabs">
@@ -257,6 +262,6 @@
 
 		</div>
 	{{ Form::close(); }}
-
+	@endif
 
 @stop

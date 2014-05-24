@@ -1,5 +1,9 @@
 @extends(Theme::path('admin/layouts/modal'))
 
+@section('title')
+	{{{ $title }}}
+@stop
+
 @section('styles')
 	<style type="text/css"> 
 		#editor {
@@ -12,9 +16,7 @@
 @section('content')
 	@if ($message = Session::get('success'))
 	<script type="text/javascript">
-	
 		$('#site-modal').modal('hide');
-
 	</script>
 @else
 

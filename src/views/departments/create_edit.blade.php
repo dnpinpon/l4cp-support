@@ -1,5 +1,9 @@
 @extends(Theme::path('admin/layouts/modal'))
 
+@section('title')
+	{{{ $title }}}
+@stop
+
 @section('content')
 	@if ($message = Session::get('success'))
 	<script type="text/javascript">
@@ -7,8 +11,9 @@
 			var oTable = parent.$('#departments').dataTable();
 			oTable.fnReloadAjax();
 		}
+		closeModel();
 	</script>
-	@endif
+	@else
 
 
 	<ul class="nav nav-tabs">
@@ -157,4 +162,5 @@
 			{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 		</div>
 	{{ Form::close(); }}
+	@endif
 @stop

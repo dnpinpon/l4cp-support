@@ -1,5 +1,9 @@
 @extends(Theme::path('admin/layouts/modal'))
 
+@section('title')
+	{{{ $title }}}
+@stop
+
 @section('content')
 	<link rel="stylesheet" href="{{{ asset('assets/css/bootstrap-colorselector.css') }}}"/>
 	<script src="{{{ asset('assets/js/bootstrap-colorselector.js') }}}"></script>
@@ -11,8 +15,9 @@
 			var oTable = parent.$('#statuses').dataTable();
 			oTable.fnReloadAjax();
 		}
+		closeModel();
 	</script>
-	@endif
+	@else
 
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#tab-general" data-toggle="tab">{{{ Lang::get('core.general') }}}</a></li>
@@ -174,4 +179,5 @@
 			{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 		</div>
 	{{ Form::close(); }}
+	@endif
 @stop

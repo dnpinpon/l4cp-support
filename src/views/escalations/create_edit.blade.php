@@ -1,5 +1,9 @@
 @extends(Theme::path('admin/layouts/modal'))
 
+@section('title')
+	{{{ $title }}}
+@stop
+
 @section('styles')
 	<style type="text/css"> 
 		#editor {
@@ -16,8 +20,9 @@
 			var oTable = parent.$('#escalations').dataTable();
 			oTable.fnReloadAjax();
 		}
+		closeModel();
 	</script>
-	@endif
+	@else
 
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#tab-general" data-toggle="tab">{{{ Lang::get('core.general') }}}</a></li>
@@ -159,4 +164,5 @@
 			{{ Form::submit(Lang::get('button.save'), array('class' => 'btn btn-responsive btn-success')); }} 
 		</div>
 	{{ Form::close(); }}
+	@endif
 @stop
