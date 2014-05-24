@@ -23,11 +23,12 @@ Please note there is no client interface at this time. Clients can e-mail your s
 #### Add the the provider:
 
       'Gcphost\L4cpSupport\L4cpSupportServiceProvider',
+      'Rtablada\Profane\FilterServiceProvider',
 
 #### Add to the alias:
 
       'Support'	=>	'Gcphost\L4cpSupport\Helpers\Support',
- 
+      'Filter' => 'Rtablada\Profane\Facades\Filter',
 
 
 ### Dump auto load 
